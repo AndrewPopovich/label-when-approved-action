@@ -42,6 +42,7 @@ label_when_approved() {
 
   approvals=0
   changesRequested=0
+  echo "reviews: $reviews"
 
   for r in $reviews; do
     review="$(echo "$r" | base64 -d)"
