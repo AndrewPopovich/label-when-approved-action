@@ -18,7 +18,7 @@ fi
 
 addLabel=$ADD_LABEL
 if [[ -n "$LABEL_NAME" ]]; then
-  echo "Warning: Plase define the ADD_LABEL variable instead of the deprecated LABEL_NAME."
+  echo "Warning: Please define the ADD_LABEL variable instead of the deprecated LABEL_NAME."
   addLabel=$LABEL_NAME
 fi
 
@@ -41,6 +41,7 @@ label_when_approved() {
   reviews=$(echo "$body" | jq --raw-output '.[] | {state: .state} | @base64')
 
   approvals=0
+  changesRequested=0
 
   for r in $reviews; do
     review="$(echo "$r" | base64 -d)"
@@ -48,6 +49,10 @@ label_when_approved() {
 
     if [[ "$rState" == "APPROVED" ]]; then
       approvals=$((approvals+1))
+    fi
+    echo "rState is: $rState"
+    if [[ "$rState" == "REQUESTED CHANGES" ]]; then
+      changesRequested=$((changesRequested+1))
     fi
 
     echo "${approvals}/${APPROVALS} approvals"
