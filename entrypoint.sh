@@ -57,25 +57,6 @@ label_when_approved() {
 
     echo "${approvals}/${APPROVALS} approvals"
 
-    if [ -n "$APPROVALS" ] && [ "$approvals" -ge "$APPROVALS" ]; then
-      echo "Labeling pull request"
-
-      curl -sSL \
-        -H "${AUTH_HEADER}" \
-        -H "${API_HEADER}" \
-        -X POST \
-        -H "Content-Type: application/json" \
-        -d "{\"labels\":[\"${addLabel}\"]}" \
-        "${URI}/repos/${GITHUB_REPOSITORY}/issues/${number}/labels"
-
-      if [[ -n "$REMOVE_LABEL" ]]; then
-          curl -sSL \
-            -H "${AUTH_HEADER}" \
-            -H "${API_HEADER}" \
-            -X DELETE \
-            "${URI}/repos/${GITHUB_REPOSITORY}/issues/${number}/labels/${REMOVE_LABEL}"
-      fi
-
     if [ -n "$CHANGES_REQUESTED" ] && [ "$changesRequested" -ge "$CHANGES_REQUESTED" ]; then
       echo "Labeling pull request"
 
@@ -94,7 +75,27 @@ label_when_approved() {
             -X DELETE \
             "${URI}/repos/${GITHUB_REPOSITORY}/issues/${number}/labels/${REMOVE_LABEL}"
       fi
+      break
+    fi
 
+    if [ -n "$APPROVALS" ] && [ "$approvals" -ge "$APPROVALS" ]; then
+      echo "Labeling pull request"
+
+      curl -sSL \
+        -H "${AUTH_HEADER}" \
+        -H "${API_HEADER}" \
+        -X POST \
+        -H "Content-Type: application/json" \
+        -d "{\"labels\":[\"${addLabel}\"]}" \
+        "${URI}/repos/${GITHUB_REPOSITORY}/issues/${number}/labels"
+
+      if [[ -n "$REMOVE_LABEL" ]]; then
+          curl -sSL \
+            -H "${AUTH_HEADER}" \
+            -H "${API_HEADER}" \
+            -X DELETE \
+            "${URI}/repos/${GITHUB_REPOSITORY}/issues/${number}/labels/${REMOVE_LABEL}"
+      fi
       break
     fi
   done
