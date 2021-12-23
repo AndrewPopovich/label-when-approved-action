@@ -57,7 +57,7 @@ label_when_approved() {
 
     echo "${approvals}/${APPROVALS} approvals"
 
-    if [[ "$approvals" -ge "$APPROVALS" ]]; then
+    if [ -n "$APPROVALS" ] && [ "$approvals" -ge "$APPROVALS" ]; then
       echo "Labeling pull request"
 
       curl -sSL \
@@ -76,7 +76,7 @@ label_when_approved() {
             "${URI}/repos/${GITHUB_REPOSITORY}/issues/${number}/labels/${REMOVE_LABEL}"
       fi
 
-    if [[ "$changesRequested" -ge "$CHANGES_REQUESTED" ]]; then
+    if [ -n "$CHANGES_REQUESTED" ] && [ "$changesRequested" -ge "$CHANGES_REQUESTED" ]; then
       echo "Labeling pull request"
 
       curl -sSL \
