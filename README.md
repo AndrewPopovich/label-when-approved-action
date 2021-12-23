@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Label when approved
-      uses: pullreminders/label-when-approved-or-changes-requested-action@master
+      uses: AndrewPopovich/label-when-approved-or-changes-requested-action@master
       env:
         APPROVALS: "2"
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -23,7 +23,7 @@ jobs:
         REMOVE_LABEL: "awaiting%20review"
     
     - name: Label when changes requested
-      uses: pullreminders/label-when-approved-or-changes-requested-action@master
+      uses: AndrewPopovich/label-when-approved-or-changes-requested-action@master
       env:
         CHANGES_REQUESTED: "1"
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
