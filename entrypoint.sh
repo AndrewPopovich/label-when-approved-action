@@ -51,7 +51,7 @@ label_when_approved() {
       approvals=$((approvals+1))
     fi
     echo "rState is: $rState"
-    if [[ "$rState" == "REQUESTED CHANGES" ]]; then
+    if [[ "$rState" == "CHANGES_REQUESTED" ]]; then
       changesRequested=$((changesRequested+1))
     fi
 
