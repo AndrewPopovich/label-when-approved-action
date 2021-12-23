@@ -76,6 +76,25 @@ label_when_approved() {
             "${URI}/repos/${GITHUB_REPOSITORY}/issues/${number}/labels/${REMOVE_LABEL}"
       fi
 
+    if [[ "$changesRequested" -ge "$CHANGES_REQUESTED" ]]; then
+      echo "Labeling pull request"
+
+      curl -sSL \
+        -H "${AUTH_HEADER}" \
+        -H "${API_HEADER}" \
+        -X POST \
+        -H "Content-Type: application/json" \
+        -d "{\"labels\":[\"${addLabel}\"]}" \
+        "${URI}/repos/${GITHUB_REPOSITORY}/issues/${number}/labels"
+
+      if [[ -n "$REMOVE_LABEL" ]]; then
+          curl -sSL \
+            -H "${AUTH_HEADER}" \
+            -H "${API_HEADER}" \
+            -X DELETE \
+            "${URI}/repos/${GITHUB_REPOSITORY}/issues/${number}/labels/${REMOVE_LABEL}"
+      fi
+
       break
     fi
   done
